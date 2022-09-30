@@ -16,4 +16,11 @@ class TestCase extends TestbenchTestCase
             LoggerServiceProvider::class,
         ];
     }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->loadMigrationsFrom(__DIR__ . '/Stubs/Migrations');
+    }
 }

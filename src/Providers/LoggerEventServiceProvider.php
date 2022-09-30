@@ -3,8 +3,11 @@
 namespace Mika\Logger\Providers;
 
 use Illuminate\Foundation\Support\Providers\EventServiceProvider;
+use Mika\Logger\Listeners\RequestListener;
 
 class LoggerEventServiceProvider extends EventServiceProvider
 {
-    protected $subscribe = [];
+    protected $subscribe = [
+        RequestListener::class
+    ];
 }
