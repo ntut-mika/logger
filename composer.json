@@ -1,0 +1,38 @@
+{
+    "name": "mika/logger",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Mika\\Logger\\": "src/",
+            "Mika\\Logger\\Database\\Factories\\": "database/factories/",
+            "Mika\\Logger\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Mika\\Logger\\Test\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Mika\\Logger\\Providers\\LoggerServiceProvider"
+            ]
+        }
+    },
+    "authors": [
+        {
+            "name": "ntut-mika",
+            "email": "t107590003@ntut.org.tw"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require-dev": {
+        "orchestra/testbench": "^7.8"
+    },
+    "require": {
+        "mika/architecture": "^1.1"
+    }
+}
