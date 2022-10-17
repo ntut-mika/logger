@@ -27,16 +27,12 @@ class LogService extends BaseService
 
     public function create(Collection $input)
     {
-        $data = clone $input;
         $user = auth()->user();
 
-        $data->put('batch_id', static::$batch_id);
+        $input->put('batch_id', static::$batch_id);
+        $input->put('user_type', $user ? get_class($user) : null);
+        $input->put('user_id', $user?->id);
 
-        if ($user !== null) {
-            $data->put('user_type', get_class(auth()->user()));
-            $data->put('user_id', auth()->user()->id);
-        }
-
-        return parent::create($data);
+        return parent::create($input);
     }
 }
