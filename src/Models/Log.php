@@ -26,4 +26,9 @@ class Log extends BaseModel
     ];
 
     protected $presenter = LogPresenter::class;
+
+    public function user()
+    {
+        return $this->morphTo();
+    }
 }
