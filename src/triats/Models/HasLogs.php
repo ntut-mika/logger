@@ -2,7 +2,6 @@
 
 namespace Mika\Logger\triats\Models;
 
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Mika\Logger\Enums\LogTypeEnum;
 use Mika\Logger\Enums\ModelActionEnum;
 use Mika\Logger\Models\Log;
