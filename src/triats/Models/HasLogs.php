@@ -22,4 +22,14 @@ trait HasLogs
 
         return $query;
     }
+
+    public function getLastExecutor(ModelActionEnum $action = null)
+    {
+        return $this->getLastLog($action)?->user;
+    }
+
+    public function getLastLog(ModelActionEnum $action = null)
+    {
+        return $this->logs($action)->first();
+    }
 }
