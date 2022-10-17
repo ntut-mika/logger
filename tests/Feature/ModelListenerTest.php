@@ -2,43 +2,30 @@
 
 namespace Mika\Logger\Test\Feature;
 
-use Mika\Logger\Enums\LogTypeEnum;
 use Mika\Logger\Enums\ModelActionEnum;
-use Mika\Logger\Services\LogService;
 use Mika\Logger\Test\Stubs\Models\Stub;
 use Mika\Logger\Test\TestCase;
 
 class ModelListenerTest extends TestCase
 {
-    /**
-     * @var LogService $service
-     */
-    protected $service;
-
     protected function setUp(): void
     {
         parent::setUp();
-
-        $this->service = app(LogService::class);
     }
 
     public function test_create()
     {
         $stub = Stub::create(['title' => 'init value']);
+        $logs = $stub->logs(ModelActionEnum::CREATE)->get();
 
-        [$status, $items] = $this->service->search(collect([
-            'query' => function ($query) {
-                $query->where('type', LogTypeEnum::Model);
-            }
-        ]));
 
-        $this->assertEquals(1, $items->count());
-        $this->assertEquals(ModelActionEnum::CREATE->value, $items[0]->content['action']);
-        $this->assertEquals($stub->{$stub->getKeyName()}, $items[0]->content[$stub->getKeyName()]);
-        $this->assertEquals(get_class($stub), $items[0]->content['class']);
-        $this->assertEquals([], $items[0]->content['original']);
-        $this->assertEquals($stub->id, $items[0]->content['current']['id']);
-        $this->assertEquals($stub->title, $items[0]->content['current']['title']);
+        $this->assertEquals(1, $logs->count());
+        $this->assertEquals(ModelActionEnum::CREATE->value, $logs[0]->content['action']);
+        $this->assertEquals($stub->{$stub->getKeyName()}, $logs[0]->content[$stub->getKeyName()]);
+        $this->assertEquals(get_class($stub), $logs[0]->content['class']);
+        $this->assertEquals([], $logs[0]->content['original']);
+        $this->assertEquals($stub->id, $logs[0]->content['current']['id']);
+        $this->assertEquals($stub->title, $logs[0]->content['current']['title']);
     }
 
     public function test_update()
@@ -48,14 +35,9 @@ class ModelListenerTest extends TestCase
         $stub->title = 'save value';
         $stub->save();
 
-        [$status, $items] = $this->service->search(collect([
-            'query' => function ($query) {
-                $query->where('type', LogTypeEnum::Model)
-                    ->where('content->action', ModelActionEnum::UPDATE);
-            }
-        ]));
+        $logs = $stub->logs(ModelActionEnum::UPDATE)->get();
 
-        $this->assertEquals(2, $items->count());
+        $this->assertEquals(2, $logs->count());
     }
 
     public function test_soft_delete()
@@ -63,14 +45,9 @@ class ModelListenerTest extends TestCase
         $stub = Stub::create(['title' => 'init value']);
         $stub->delete();
 
-        [$status, $items] = $this->service->search(collect([
-            'query' => function ($query) {
-                $query->where('type', LogTypeEnum::Model)
-                    ->where('content->action', ModelActionEnum::SOFT_DELETE);
-            }
-        ]));
+        $logs = $stub->logs(ModelActionEnum::SOFT_DELETE)->get();
 
-        $this->assertEquals(1, $items->count());
+        $this->assertEquals(1, $logs->count());
     }
 
     public function test_restore()
@@ -79,14 +56,9 @@ class ModelListenerTest extends TestCase
         $stub->delete();
         $stub->restore();
 
-        [$status, $items] = $this->service->search(collect([
-            'query' => function ($query) {
-                $query->where('type', LogTypeEnum::Model)
-                    ->where('content->action', ModelActionEnum::RESTORE);
-            }
-        ]));
+        $logs = $stub->logs(ModelActionEnum::RESTORE)->get();
 
-        $this->assertEquals(1, $items->count());
+        $this->assertEquals(1, $logs->count());
     }
 
     public function test_force_delete()
@@ -94,13 +66,8 @@ class ModelListenerTest extends TestCase
         $stub = Stub::create(['title' => 'init value']);
         $stub->forceDelete();
 
-        [$status, $items] = $this->service->search(collect([
-            'query' => function ($query) {
-                $query->where('type', LogTypeEnum::Model)
-                    ->where('content->action', ModelActionEnum::FORCE_DELETE);
-            }
-        ]));
+        $logs = $stub->logs(ModelActionEnum::FORCE_DELETE)->get();
 
-        $this->assertEquals(1, $items->count());
+        $this->assertEquals(1, $logs->count());
     }
 }
