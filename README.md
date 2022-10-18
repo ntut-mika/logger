@@ -1,6 +1,11 @@
 # Logger
 Laravel Logger Package
 
+## Environment Requirement
+| Laravel | Logger |
+|---------|--------|
+|   9.x   |   1.x  |
+
 ## LogList
 - Request
 - Model
