@@ -33,12 +33,12 @@ class YourModel extends Model
 ```
 
 ```php
-YourModel::first()->getLastExecutor(); // get last executor user
+YourModel::first()->getLastExecutor(); // get last execute user
 YourModel::first()->getLastLog(); // get this record last log
 
 YourModel::first()->getLastExecutor(ModelActionEnum::UPDATE); // get last update user
 YourModel::first()->getLastLog(ModelActionEnum::UPDATE); // get last update log
 
 YourModel::first()->logs(); // get this record all logs query
-YourMOdel::first()->logs(ModelActionEnum::UPDATE); // get this record all update log query
+YourMOdel::first()->logs(ModelActionEnum::UPDATE); // get this record all update logs query
 ```
