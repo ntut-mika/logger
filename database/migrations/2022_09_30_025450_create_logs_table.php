@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('logs', function (Blueprint $table) {
             $table->id();
             $table->uuid('batch_id');
-            $table->unsignedTinyInteger('type');
+            $table->string('type');
             $table->longText('content');
             $table->nullableMorphs('user');
             $table->timestamps();

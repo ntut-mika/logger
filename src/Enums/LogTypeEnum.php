@@ -2,8 +2,8 @@
 
 namespace Mika\Logger\Enums;
 
-enum LogTypeEnum: int
+enum LogTypeEnum: string
 {
-    case Request = 1;
-    case Model = 2;
+    case Request = 'request';
+    case Model = 'model';
 }
