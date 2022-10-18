@@ -17,23 +17,23 @@ php artisan vendor:publish --provider="Mika\Logger\Providers\LoggerServiceProvid
 
 ## Tutorial
 
-you can use this trait in your model
+you can use HasLogs trait in your model
 ```php
 use Mika\Logger\triats\Models\HasLogs;
 
 class YourModel extends Model
 {
-    use HasLog;
+    use HasLogs;
 }
 ```
 
 ```php
-YourModel::first()->getLastExecutor() // get last executor user
-YourModel::first()->getLastLog() // get this record last log
+YourModel::first()->getLastExecutor(); // get last executor user
+YourModel::first()->getLastLog(); // get this record last log
 
-YourModel::first()->getLastExecutor(ModelActionEnum::UPDATE) // get last update user
-YourModel::first()->getLastLog(ModelActionEnum::UPDATE) // get last update log
+YourModel::first()->getLastExecutor(ModelActionEnum::UPDATE); // get last update user
+YourModel::first()->getLastLog(ModelActionEnum::UPDATE); // get last update log
 
-YourModel::first()->logs() // get this record all logs query
-YourMOdel::first()->logs(ModelActionEnum::UPDATE) // get this record all update log query
+YourModel::first()->logs(); // get this record all logs query
+YourMOdel::first()->logs(ModelActionEnum::UPDATE); // get this record all update log query
 ```
