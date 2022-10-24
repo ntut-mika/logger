@@ -33,6 +33,6 @@
         "orchestra/testbench": "^7.8"
     },
     "require": {
-        "mika/architecture": "^1.1"
+        "mika/architecture": "^1.2"
     }
 }
