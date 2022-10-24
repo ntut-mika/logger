@@ -39,9 +39,11 @@ class RequestListenerTest extends TestCase
         $this->post('/auth');
 
         [$status, $item] = $this->service->getItem(collect([
-            'query' => function ($query) {
-                $query->where('type', LogTypeEnum::Request);
-            }
+            'queries' => [
+                function ($query) {
+                    $query->where('type', LogTypeEnum::Request);
+                }
+            ]
         ]));
 
         $this->assertEquals(User::class, $item->user_type);
@@ -56,9 +58,11 @@ class RequestListenerTest extends TestCase
         $this->post('/auth');
 
         [$status, $item] = $this->service->getItem(collect([
-            'query' => function ($query) {
-                $query->where('type', LogTypeEnum::Request);
-            }
+            'queries' => [
+                function ($query) {
+                    $query->where('type', LogTypeEnum::Request);
+                }
+            ]
         ]));
 
         $this->assertNull($item->user_type);
@@ -70,9 +74,11 @@ class RequestListenerTest extends TestCase
         $this->get('/test');
 
         [$status, $item] = $this->service->getItem(collect([
-            'query' => function ($query) {
-                $query->where('type', LogTypeEnum::Request);
-            }
+            'queries' => [
+                function ($query) {
+                    $query->where('type', LogTypeEnum::Request);
+                }
+            ]
         ]));
 
         $this->assertEquals(request()->ip(), $item->content['ip_address']);
@@ -92,9 +98,11 @@ class RequestListenerTest extends TestCase
         foreach ($actions as $index => $action) {
             $this->$action('/test');
             [$status, $item] = $this->service->getItem(collect([
-                'query' => function ($query) use ($index) {
-                    $query->where('type', LogTypeEnum::Request)->offset($index);
-                }
+                'queries' => [
+                    function ($query) use ($index) {
+                        $query->where('type', LogTypeEnum::Request)->offset($index);
+                    }
+                ]
             ]));
 
             $this->assertEquals(request()->method(), $item->content['method']);
@@ -106,9 +114,11 @@ class RequestListenerTest extends TestCase
         $this->get("/test?page=1");
 
         [$status, $item] = $this->service->getItem(collect([
-            'query' => function ($query) {
-                $query->where('type', LogTypeEnum::Request);
-            }
+            'queries' => [
+                function ($query) {
+                    $query->where('type', LogTypeEnum::Request);
+                }
+            ]
         ]));
 
         $this->assertEquals(request()->getPathInfo(), $item->content['request_uri']);
@@ -121,9 +131,11 @@ class RequestListenerTest extends TestCase
         $this->get("/test");
 
         [$status, $item] = $this->service->getItem(collect([
-            'query' => function ($query) {
-                $query->where('type', LogTypeEnum::Request);
-            }
+            'queries' => [
+                function ($query) {
+                    $query->where('type', LogTypeEnum::Request);
+                }
+            ]
         ]));
 
         $this->assertEquals(request()->route()->uri(), $item->content['route_match']);
@@ -136,9 +148,11 @@ class RequestListenerTest extends TestCase
         $this->get("/test");
 
         [$status, $item] = $this->service->getItem(collect([
-            'query' => function ($query) {
-                $query->where('type', LogTypeEnum::Request);
-            }
+            'queries' => [
+                function ($query) {
+                    $query->where('type', LogTypeEnum::Request);
+                }
+            ]
         ]));
 
         $this->assertEquals(request()->route()->getActionName(), $item->content['controller_action']);
@@ -151,9 +165,11 @@ class RequestListenerTest extends TestCase
         $this->get("/test");
 
         [$status, $item] = $this->service->getItem(collect([
-            'query' => function ($query) {
-                $query->where('type', LogTypeEnum::Request);
-            }
+            'queries' => [
+                function ($query) {
+                    $query->where('type', LogTypeEnum::Request);
+                }
+            ]
         ]));
 
         $this->assertEquals(request()->route()->gatherMiddleware(), $item->content['middleware']);
@@ -166,9 +182,11 @@ class RequestListenerTest extends TestCase
         ]);
 
         [$status, $item] = $this->service->getItem(collect([
-            'query' => function ($query) {
-                $query->where('type', LogTypeEnum::Request);
-            }
+            'queries' => [
+                function ($query) {
+                    $query->where('type', LogTypeEnum::Request);
+                }
+            ]
         ]));
 
         $this->assertEquals('********', $item->content['headers']['authorization']);
@@ -179,9 +197,11 @@ class RequestListenerTest extends TestCase
         $this->get("/test?password=test");
 
         [$status, $item] = $this->service->getItem(collect([
-            'query' => function ($query) {
-                $query->where('type', LogTypeEnum::Request);
-            }
+            'queries' => [
+                function ($query) {
+                    $query->where('type', LogTypeEnum::Request);
+                }
+            ]
         ]));
 
         $this->assertEquals('********', $item->content['queries']['password']);
@@ -203,9 +223,11 @@ class RequestListenerTest extends TestCase
         ]);
 
         [$status, $item] = $this->service->getItem(collect([
-            'query' => function ($query) {
-                $query->where('type', LogTypeEnum::Request);
-            }
+            'queries' => [
+                function ($query) {
+                    $query->where('type', LogTypeEnum::Request);
+                }
+            ]
         ]));
 
         $this->assertEquals($name, $item->content['posts']['files'][0]['name']);
@@ -224,9 +246,11 @@ class RequestListenerTest extends TestCase
         $this->withSession(['data' => 'test'])->get('/test');
 
         [$status, $item] = $this->service->getItem(collect([
-            'query' => function ($query) {
-                $query->where('type', LogTypeEnum::Request);
-            }
+            'queries' => [
+                function ($query) {
+                    $query->where('type', LogTypeEnum::Request);
+                }
+            ]
         ]));
 
         $this->assertEquals('test', $item->content['sessions']['data']);
@@ -237,9 +261,11 @@ class RequestListenerTest extends TestCase
         $this->get('test');
 
         [$status, $item] = $this->service->getItem(collect([
-            'query' => function ($query) {
-                $query->where('type', LogTypeEnum::Request);
-            }
+            'queries' => [
+                function ($query) {
+                    $query->where('type', LogTypeEnum::Request);
+                }
+            ]
         ]));
 
         $this->assertEquals(404, $item->content['response_status_code']);
@@ -255,9 +281,11 @@ class RequestListenerTest extends TestCase
         $this->get('test');
 
         [$status, $item] = $this->service->getItem(collect([
-            'query' => function ($query) {
-                $query->where('type', LogTypeEnum::Request);
-            }
+            'queries' => [
+                function ($query) {
+                    $query->where('type', LogTypeEnum::Request);
+                }
+            ]
         ]));
 
         $this->assertEquals(200, $item->content['response_status_code']);
@@ -275,9 +303,11 @@ class RequestListenerTest extends TestCase
         $this->get('test');
 
         [$status, $item] = $this->service->getItem(collect([
-            'query' => function ($query) {
-                $query->where('type', LogTypeEnum::Request);
-            }
+            'queries' => [
+                function ($query) {
+                    $query->where('type', LogTypeEnum::Request);
+                }
+            ]
         ]));
 
         $this->assertEquals(200, $item->content['response_status_code']);
@@ -295,9 +325,11 @@ class RequestListenerTest extends TestCase
         $this->get('test');
 
         [$status, $item] = $this->service->getItem(collect([
-            'query' => function ($query) {
-                $query->where('type', LogTypeEnum::Request);
-            }
+            'queries' => [
+                function ($query) {
+                    $query->where('type', LogTypeEnum::Request);
+                }
+            ]
         ]));
 
         $this->assertEquals(200, $item->content['response_status_code']);
@@ -313,9 +345,11 @@ class RequestListenerTest extends TestCase
         $response = $this->get('test');
 
         [$status, $item] = $this->service->getItem(collect([
-            'query' => function ($query) {
-                $query->where('type', LogTypeEnum::Request);
-            }
+            'queries' => [
+                function ($query) {
+                    $query->where('type', LogTypeEnum::Request);
+                }
+            ]
         ]));
 
         $this->assertEquals(302, $item->content['response_status_code']);
@@ -343,9 +377,11 @@ class RequestListenerTest extends TestCase
         $response = $this->get('test');
 
         [$status, $item] = $this->service->getItem(collect([
-            'query' => function ($query) {
-                $query->where('type', LogTypeEnum::Request);
-            }
+            'queries' => [
+                function ($query) {
+                    $query->where('type', LogTypeEnum::Request);
+                }
+            ]
         ]));
 
         $this->assertEquals(200, $item->content['response_status_code']);
